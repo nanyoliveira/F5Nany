@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<TextureAtlas imagePath="ladyBug.png">
+    <SubTexture name="background" x="2" y="2" width="1024" height="1024"/>
+    <SubTexture name="enemy_trhee" x="1028" y="2" width="102" height="128" frameX="-14" frameY="0" frameWidth="128" frameHeight="128"/>
+    <SubTexture name="enemy_stone" x="1132" y="2" width="76" height="124" frameX="-27" frameY="-2" frameWidth="128" frameHeight="128"/>
+    <SubTexture name="enemy_earth" x="1210" y="2" width="100" height="120" frameX="-13" frameY="-4" frameWidth="128" frameHeight="128"/>
+    <SubTexture name="explode_0001" x="1312" y="2" width="100" height="78" frameX="-13" frameY="-25" frameWidth="128" frameHeight="128"/>
+    <SubTexture name="explode_0002" x="1414" y="2" width="128" height="124" frameX="0" frameY="0" frameWidth="128" frameHeight="128"/>
+    <SubTexture name="explode_0003" x="1544" y="2" width="128" height="124" frameX="0" frameY="0" frameWidth="128" frameHeight="128"/>
+    <SubTexture name="explode_0004" x="1544" y="2" width="128" height="124" frameX="0" frameY="0" frameWidth="128" frameHeight="128"/>
+    <SubTexture name="explode_0005" x="1544" y="2" width="128" height="124" frameX="0" frameY="0" frameWidth="128" frameHeight="128"/>
+    <SubTexture name="explode_0006" x="1674" y="2" width="128" height="128"/>
+    <SubTexture name="explode_0007" x="1804" y="2" width="128" height="128"/>
+    <SubTexture name="explode_0008" x="2" y="1028" width="128" height="128"/>
+    <SubTexture name="explode_0009" x="132" y="1028" width="128" height="128"/>
+    <SubTexture name="explode_0010" x="262" y="1028" width="128" height="128"/>
+    <SubTexture name="explode_0011" x="392" y="1028" width="128" height="128"/>
+    <SubTexture name="explode_0012" x="522" y="1028" width="128" height="128"/>
+    <SubTexture name="explode_0013" x="652" y="1028" width="128" height="128"/>
+    <SubTexture name="explode_0014" x="652" y="1028" width="128" height="128"/>
+    <SubTexture name="explode_0015" x="652" y="1028" width="128" height="128"/>
+    <SubTexture name="explode_0016" x="782" y="1028" width="128" height="128"/>
+    <SubTexture name="explode_0017" x="912" y="1028" width="128" height="124" frameX="0" frameY="0" frameWidth="128" frameHeight="128"/>
+    <SubTexture name="explode_0018" x="912" y="1028" width="128" height="124" frameX="0" frameY="0" frameWidth="128" frameHeight="128"/>
+    <SubTexture name="explode_0019" x="912" y="1028" width="128" height="124" frameX="0" frameY="0" frameWidth="128" frameHeight="128"/>
+    <SubTexture name="explode_0020" x="1042" y="1028" width="128" height="124" frameX="0" frameY="0" frameWidth="128" frameHeight="128"/>
+    <SubTexture name="explode_0021" x="1172" y="1028" width="1" height="1" frameX="0" frameY="0" frameWidth="128" frameHeight="128"/>
+</TextureAtlas>
