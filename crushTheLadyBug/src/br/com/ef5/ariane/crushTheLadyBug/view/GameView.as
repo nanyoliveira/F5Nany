@@ -1,14 +1,6 @@
 package br.com.ef5.ariane.crushTheLadyBug.view {
-	import starling.events.TouchEvent;
-
-	import flash.geom.Point;
-
-	import starling.events.TouchPhase;
-	import starling.events.Touch;
-	import starling.core.Starling;
-	import starling.animation.Transitions;
-	import starling.animation.Tween;
-
+	import br.com.ef5.ariane.crushTheLadyBug.control.Vibrate;
+	import br.com.ef5.ariane.crushTheLadyBug.object.Enemy;
 	import br.com.ef5.ariane.crushTheLadyBug.object.EnemyArk;
 	import br.com.ef5.ariane.crushTheLadyBug.object.EnemyStone;
 	import br.com.ef5.ariane.crushTheLadyBug.object.EnemyTree;
@@ -22,8 +14,16 @@ package br.com.ef5.ariane.crushTheLadyBug.view {
 	import feathers.controls.Scroller;
 	import feathers.layout.HorizontalLayout;
 
+	import starling.animation.Transitions;
+	import starling.animation.Tween;
+	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
+	import starling.events.Touch;
+	import starling.events.TouchEvent;
+	import starling.events.TouchPhase;
+
+	import com.adobe.nativeExtensions.Vibration;
 
 	[Event(name="complete",type="starling.events.Event")]
 	[Event(name="ShowHome",type="starling.events.Event")]
@@ -43,6 +43,7 @@ package br.com.ef5.ariane.crushTheLadyBug.view {
 		private var showingTime : int;
 		private var tween : Tween;
 		private var score : int;
+		private var vibration : Vibration;
 
 		public function GameView() {
 			super();
@@ -70,27 +71,21 @@ package br.com.ef5.ariane.crushTheLadyBug.view {
 
 			// enemy
 			for (var i : int = 0; i < numberOfEnemy; i++) {
-				var enemyTree : EnemyTree = new EnemyTree();
+				var enemyTree : Enemy = new EnemyTree();
 				enemyTree.x = (Math.random() * stage.stageWidth) + enemyTree.width;
 				enemyTree.y = (Math.random() * stage.stageHeight);
-				enemyTree.addEventListener(TouchEvent.TOUCH, looseAction);
 				addChild(enemyTree);
 
-				var enemyStone : EnemyStone = new EnemyStone();
+				var enemyStone : Enemy = new EnemyStone();
 				enemyStone.x = (Math.random() * stage.stageWidth) + enemyStone.width;
 				enemyStone.y = (Math.random() * stage.stageHeight);
-				enemyStone.addEventListener(TouchEvent.TOUCH, looseAction);
 				addChild(enemyStone);
 
-				var enemyArk : EnemyArk = new EnemyArk();
+				var enemyArk : Enemy = new EnemyArk();
 				enemyArk.x = (Math.random() * stage.stageWidth) + enemyArk.width;
 				enemyArk.y = (Math.random() * stage.stageHeight);
-				enemyArk.addEventListener(TouchEvent.TOUCH, looseAction);
 				addChild(enemyArk);
 			}
-		}
-
-		private function looseAction(event : TouchEvent) : void {
 		}
 
 		override protected function draw() : void {
@@ -150,22 +145,25 @@ package br.com.ef5.ariane.crushTheLadyBug.view {
 				counter = 0;
 				mooveLadyBug();
 			}
-			
+
 			counter++;
 		}
 
 		private function squashLadyBug(event : TouchEvent) : void {
-			
-			
-			 var touch:Touch = event.getTouch(ladyBug, TouchPhase.BEGAN);
-			 if(touch)
-			 {
+			var touch : Touch = event.getTouch(ladyBug, TouchPhase.BEGAN);
+			if (touch) {
+				removeEventListener(Event.ENTER_FRAME, onEnterFrameHandler);
 				ladyBug.ladyBugArt.play();
 				// score
 				score++;
 				showingTime--;
 				counter = 0;
-			 }
+				Vibrate.getInstance().doVibration(50);
+				if (hasEventListener(Event.ENTER_FRAME) == false) {
+					addEventListener(Event.ENTER_FRAME, onEnterFrameHandler);
+					trace("added listener");
+				}
+			}
 		}
 
 		private function mooveLadyBug() : void {

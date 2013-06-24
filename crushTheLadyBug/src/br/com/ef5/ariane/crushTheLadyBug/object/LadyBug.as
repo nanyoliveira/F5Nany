@@ -1,9 +1,10 @@
 package br.com.ef5.ariane.crushTheLadyBug.object {
-	import starling.core.Starling;
 	import br.com.ef5.ariane.crushTheLadyBug.Supplies;
+
+	import starling.core.Starling;
 	import starling.display.MovieClip;
-	import starling.events.Event;
 	import starling.display.Sprite;
+	import starling.events.Event;
 
 	/**
 	 * @author Ariane Oliveira

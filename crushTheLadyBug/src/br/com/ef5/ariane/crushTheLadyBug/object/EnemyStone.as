@@ -1,26 +1,18 @@
 package br.com.ef5.ariane.crushTheLadyBug.object {
-	import starling.core.Starling;
 	import br.com.ef5.ariane.crushTheLadyBug.Supplies;
+
+	import starling.core.Starling;
 	import starling.display.MovieClip;
-	import starling.events.Event;
-	import starling.display.Sprite;
 
 	/**
 	 * @author Ariane Oliveira
 	 */
-	public class EnemyStone extends Sprite {
-		private var enemyArt : MovieClip;
+	public class EnemyStone extends Enemy {
 		public function EnemyStone() {
-			addEventListener(Event.ADDED_TO_STAGE, onAddedToStageHandler);
+			super();
 		}
 
-		private function onAddedToStageHandler(event : Event) : void {
-			removeEventListener(Event.ADDED_TO_STAGE, onAddedToStageHandler);
-
-			creatEnemytArt();
-		}
-
-		private function creatEnemytArt() : void {
+		override protected function creatEnemytArt() : void {
 			enemyArt = new MovieClip(Supplies.getAtlas().getTextures("enemy_stone"), 20);
 			enemyArt.x = Math.ceil(-enemyArt.width / 2);
 			enemyArt.y = Math.ceil(-enemyArt.height / 2);
