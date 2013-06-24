@@ -1,4 +1,5 @@
 package br.com.ef5.ariane.crushTheLadyBug.view {
+	import starling.text.TextField;
 	import br.com.ef5.ariane.crushTheLadyBug.control.Vibrate;
 	import br.com.ef5.ariane.crushTheLadyBug.object.Enemy;
 	import br.com.ef5.ariane.crushTheLadyBug.object.EnemyArk;
@@ -44,6 +45,7 @@ package br.com.ef5.ariane.crushTheLadyBug.view {
 		private var tween : Tween;
 		private var score : int;
 		private var vibration : Vibration;
+		private var pontuationScore : TextField;
 
 		public function GameView() {
 			super();
@@ -113,8 +115,19 @@ package br.com.ef5.ariane.crushTheLadyBug.view {
 
 			headerChildren = new Vector.<DisplayObject>();
 			headerChildren[0] = this._backButton;
+			setScore();
 			this._header.leftItems = headerChildren;
 			this.backButtonHandler = this.onBackButton;
+			
+		}
+
+		private function setScore() : void {
+			if(!pontuationScore)
+			{
+				pontuationScore = new TextField(30, 40, score+"");
+				headerChildren[1] = this.pontuationScore;
+			}
+			pontuationScore.text = score+"";
 		}
 
 		private function onBackButton() : void {
@@ -156,6 +169,7 @@ package br.com.ef5.ariane.crushTheLadyBug.view {
 				ladyBug.ladyBugArt.play();
 				// score
 				score++;
+				setScore();
 				showingTime--;
 				counter = 0;
 				Vibrate.getInstance().doVibration(50);
