@@ -12,6 +12,7 @@ package br.com.ef5.ariane.crushTheLadyBug.object {
 	 */
 	public class Enemy extends Sprite {
 		protected var enemyArt : MovieClip;
+		private var loosePoints : Function;
 		public function Enemy() {
 			addEventListener(Event.ADDED_TO_STAGE, onAddedToStageHandler);
 		}
@@ -29,6 +30,11 @@ package br.com.ef5.ariane.crushTheLadyBug.object {
 			
 		}
 		
+		public function set onSquashed($fn:Function):void
+		{
+			loosePoints = $fn;
+		}
+		
 		private function squashEnemy($event : TouchEvent) : void {
 			
 			var touch : Touch = $event.getTouch(enemyArt, TouchPhase.BEGAN);
@@ -38,9 +44,7 @@ package br.com.ef5.ariane.crushTheLadyBug.object {
 			}
 		}
 		
-		private function loosePoints() : void {
-		}
-
+	
 		
 		
 		

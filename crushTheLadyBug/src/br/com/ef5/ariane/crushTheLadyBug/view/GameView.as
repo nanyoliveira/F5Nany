@@ -1,6 +1,5 @@
 package br.com.ef5.ariane.crushTheLadyBug.view {
-	import starling.text.TextField;
-	import br.com.ef5.ariane.crushTheLadyBug.control.Vibrate;
+	import com.gamua.flox.Flox;
 	import br.com.ef5.ariane.crushTheLadyBug.object.Enemy;
 	import br.com.ef5.ariane.crushTheLadyBug.object.EnemyArk;
 	import br.com.ef5.ariane.crushTheLadyBug.object.EnemyStone;
@@ -15,14 +14,10 @@ package br.com.ef5.ariane.crushTheLadyBug.view {
 	import feathers.controls.Scroller;
 	import feathers.layout.HorizontalLayout;
 
-	import starling.animation.Transitions;
 	import starling.animation.Tween;
-	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.events.Event;
-	import starling.events.Touch;
-	import starling.events.TouchEvent;
-	import starling.events.TouchPhase;
+	import starling.text.TextField;
 
 	import com.adobe.nativeExtensions.Vibration;
 
@@ -39,13 +34,10 @@ package br.com.ef5.ariane.crushTheLadyBug.view {
 		private var container : ScrollContainer;
 		private var ladyBug : LadyBug;
 		private var grassBg : Grass;
-		private const numberOfEnemy : Number = 2;
-		private var counter : int;
-		private var showingTime : int;
-		private var tween : Tween;
+		private const numberOfEnemy : Number = 12;
 		private var score : int;
-		private var vibration : Vibration;
 		private var pontuationScore : TextField;
+		private var headerRightChildren : Vector.<DisplayObject>;
 
 		public function GameView() {
 			super();
@@ -55,6 +47,8 @@ package br.com.ef5.ariane.crushTheLadyBug.view {
 			setLayout();
 			startGame();
 			setHeader();
+			
+			Flox.logEvent("GameStarted");
 		}
 
 		private function setLayout() : void {
@@ -73,21 +67,42 @@ package br.com.ef5.ariane.crushTheLadyBug.view {
 
 			// enemy
 			for (var i : int = 0; i < numberOfEnemy; i++) {
-				var enemyTree : Enemy = new EnemyTree();
-				enemyTree.x = (Math.random() * stage.stageWidth) + enemyTree.width;
-				enemyTree.y = (Math.random() * stage.stageHeight);
-				addChild(enemyTree);
+			
 
 				var enemyStone : Enemy = new EnemyStone();
-				enemyStone.x = (Math.random() * stage.stageWidth) + enemyStone.width;
+//				enemyStone.x = (Math.random() * stage.stageWidth) + enemyStone.width;
+				enemyStone.x = (Math.random() * stage.stageWidth) ;
 				enemyStone.y = (Math.random() * stage.stageHeight);
+				enemyStone.onSquashed = SquashEnemy;
 				addChild(enemyStone);
 
 				var enemyArk : Enemy = new EnemyArk();
-				enemyArk.x = (Math.random() * stage.stageWidth) + enemyArk.width;
+//				enemyArk.x = (Math.random() * stage.stageWidth) + enemyArk.width;
+				enemyArk.x = (Math.random() * stage.stageWidth) ;
 				enemyArk.y = (Math.random() * stage.stageHeight);
+				enemyArk.onSquashed = SquashEnemy;
 				addChild(enemyArk);
+				
 			}
+			
+			for (var j : int = 0; j < numberOfEnemy; j++) {
+				var enemyTree : Enemy = new EnemyTree();
+//				enemyTree.x = (Math.random() * stage.stageWidth) + enemyTree.width;
+				enemyTree.x = (Math.random() * stage.stageWidth) ;
+				enemyTree.y = (Math.random() * stage.stageHeight);
+				enemyTree.onSquashed = SquashEnemy;
+				addChild(enemyTree);
+			}
+			
+		}
+
+		private function SquashEnemy() : void {
+			score-=5;
+			if(score< 0)
+			{
+				score = 0;
+			}
+			setScore();
 		}
 
 		override protected function draw() : void {
@@ -118,16 +133,16 @@ package br.com.ef5.ariane.crushTheLadyBug.view {
 			setScore();
 			this._header.leftItems = headerChildren;
 			this.backButtonHandler = this.onBackButton;
-			
 		}
 
 		private function setScore() : void {
-			if(!pontuationScore)
-			{
-				pontuationScore = new TextField(30, 40, score+"");
-				headerChildren[1] = this.pontuationScore;
+			if (!pontuationScore) {
+				pontuationScore = new TextField(30, 40, score + "");
+				headerRightChildren = new Vector.<DisplayObject>();
+				headerRightChildren[0] = this.pontuationScore;
+				this._header.rightItems = headerRightChildren;
 			}
-			pontuationScore.text = score+"";
+			pontuationScore.text = score + "";
 		}
 
 		private function onBackButton() : void {
@@ -142,51 +157,17 @@ package br.com.ef5.ariane.crushTheLadyBug.view {
 			ladyBug = new LadyBug();
 			ladyBug.x = stage.stageWidth / 2;
 			ladyBug.y = stage.stageHeight / 2;
-			ladyBug.touchable = true;
-			ladyBug.addEventListener(TouchEvent.TOUCH, squashLadyBug);
+
 			addChild(ladyBug);
 
-			showingTime = 50;
-			counter = 0;
 			score = 0;
 
-			addEventListener(Event.ENTER_FRAME, onEnterFrameHandler);
+			ladyBug.squashedFunction = onScored;
 		}
 
-		private function onEnterFrameHandler(event : Event) : void {
-			if (counter > showingTime) {
-				counter = 0;
-				mooveLadyBug();
-			}
-
-			counter++;
-		}
-
-		private function squashLadyBug(event : TouchEvent) : void {
-			var touch : Touch = event.getTouch(ladyBug, TouchPhase.BEGAN);
-			if (touch) {
-				removeEventListener(Event.ENTER_FRAME, onEnterFrameHandler);
-				ladyBug.ladyBugArt.play();
-				// score
-				score++;
-				setScore();
-				showingTime--;
-				counter = 0;
-				Vibrate.getInstance().doVibration(50);
-				if (hasEventListener(Event.ENTER_FRAME) == false) {
-					addEventListener(Event.ENTER_FRAME, onEnterFrameHandler);
-					trace("added listener");
-				}
-			}
-		}
-
-		private function mooveLadyBug() : void {
-			tween = new Tween(ladyBug, .2, Transitions.EASE_IN_OUT);
-			tween.animate("x", (Math.random() * stage.stageWidth));
-			tween.animate("y", (Math.random() * stage.stageHeight));
-			Starling.juggler.add(tween);
-			ladyBug.ladyBugArt.currentFrame = 1;
-			ladyBug.ladyBugArt.stop();
+		private function onScored() : void {
+			score++;
+			setScore();
 		}
 	}
 }
