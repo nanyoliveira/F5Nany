@@ -1,4 +1,6 @@
 package br.com.ef5.ariane.crushTheLadyBug {
+	import flash.net.SharedObject;
+	import com.gamua.flox.AuthenticationType;
 	import flash.display.LoaderInfo;
 	import flash.events.UncaughtErrorEvent;
 	import com.gamua.flox.Flox;
@@ -35,24 +37,45 @@ package br.com.ef5.ariane.crushTheLadyBug {
 		private function addedToStageHandler($event : Event) : void {
 			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			initFlox();
-
-			init();
 		}
 
 		private function initFlox() : void {
 			Flox.init("nCwmwWqxlL2Rfx1Z", "Glk5gzAe0fymSZyI", "0.9");
 			var currentPlayer : Player = Player.current;
 			Flox.logEvent("currentPlayer" + currentPlayer);
-			Player.loginWithEmail("ariane.oliveira.spyke@gmail.com", onLoggedIn, onLoggedInError);
+			//Player.loginWithEmail("ariane.oliveira.spyke@gmail.com", onLoggedIn, onLoggedInError);
 
+			trace('Player.current.authType: ' + (Player.current.authType));
+			if (Player.current.authType == AuthenticationType.GUEST)
+			{
+				loggedIn();
+			}
+			else
+			{
+				 Player.current.refresh(onLoggedIn, onLoggedInError);
+			}
 		}
 
-		private function onLoggedInError() : void {
+		private function loggedIn() : void {
+			var sObject: SharedObject = SharedObject.getLocal("clb");
+			trace('sObject.data.key: ' + (sObject.data.key));
+			if (sObject.data.key == "" || sObject.data.key == undefined)
+			{
+				sObject.data.key = Player.current.id;
+				
+			}
+			var key:String = sObject.data.key;
+			
+			Player.loginWithKey(key, onLoggedIn, onLoggedInError);
+		}
+
+		private function onLoggedInError(message:String) : void {
 			Flox.logError("error on Log in");
 		}
 
-		private function onLoggedIn() : void {
+		private function onLoggedIn(player:Player) : void {
 			Flox.logInfo("Log in");
+			init();
 		}
 
 		private function init() : void {

@@ -34,7 +34,7 @@ package br.com.ef5.ariane.crushTheLadyBug.view {
 		private var container : ScrollContainer;
 		private var ladyBug : LadyBug;
 		private var grassBg : Grass;
-		private const numberOfEnemy : Number = 12;
+		private const numberOfEnemy : Number = 15;
 		private var score : int;
 		private var pontuationScore : TextField;
 		private var headerRightChildren : Vector.<DisplayObject>;
