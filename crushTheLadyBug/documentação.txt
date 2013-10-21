@@ -1,0 +1,18 @@
+> Home
+		- inserir botão de ranking
+		
+> game
+	- header 
+		-> inserir o logo no meio - ok
+		-> fazer com que a potuação seja estilizada - ok
+	
+	- game
+		-> ladybug sem cortar o corpo - ok
+		-> verificar se deve ser feito os levels de dificuldade
+
+> fim de jogo
+	-tela de perda
+	-uma forma de fazer ranking
+
+	
+- inserir icone - ok

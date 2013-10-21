@@ -33,8 +33,6 @@ package br.com.ef5.ariane.crushTheLadyBug.view {
 			playButton.defaultIcon = playButtonImage;
 		}
 		
-		
-		
 		override protected function draw():void
 		{
 			bg.x = 0;

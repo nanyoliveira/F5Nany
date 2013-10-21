@@ -12,6 +12,12 @@ package br.com.ef5.ariane.crushTheLadyBug {
 
 		[Embed(source="asset/graphics/playButton.png")]
 		public static const playButton : Class;
+
+		[Embed(source="asset/graphics/backButton.png")]
+		public static const backButton : Class;
+
+		[Embed(source="asset/graphics/title.png")]
+		public static const title : Class;
 		
 		[Embed(source="asset/sprite/ladyBug.png")]
 		public static const AtlasGestureGame : Class;

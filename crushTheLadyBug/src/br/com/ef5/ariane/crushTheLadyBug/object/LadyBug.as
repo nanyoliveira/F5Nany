@@ -1,5 +1,6 @@
 package br.com.ef5.ariane.crushTheLadyBug.object {
 	import flash.text.engine.ElementFormat;
+
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
 
@@ -59,15 +60,12 @@ package br.com.ef5.ariane.crushTheLadyBug.object {
 				_squasedFunction();
 
 				showingTime--;
-				if(showingTime < 7)
-				{
+				if (showingTime < 7) {
 					showingTime = 7;
 				}
 				trace('showingTime: ' + (showingTime));
 				counter = 0;
-			}
-			else
-			{
+			} else {
 				trace("not LadyBug");
 			}
 		}
@@ -77,8 +75,6 @@ package br.com.ef5.ariane.crushTheLadyBug.object {
 				this.stage.addEventListener(Event.ENTER_FRAME, onEnterFrameHandler);
 				trace("added listener");
 			}
-			
-			
 		}
 
 		private function onEnterFrameHandler(event : Event) : void {
@@ -94,15 +90,13 @@ package br.com.ef5.ariane.crushTheLadyBug.object {
 		}
 
 		private function mooveLadyBug() : void {
-			if(!this.hasEventListener(TouchEvent.TOUCH))
-			{
+			if (!this.hasEventListener(TouchEvent.TOUCH)) {
 				this.addEventListener(TouchEvent.TOUCH, squashLadyBug);
 			}
-			
-			
+
 			tween = new Tween(this, .2, Transitions.EASE_IN_OUT);
-			tween.animate("x", (Math.random() * stage.stageWidth));
-			tween.animate("y", (Math.random() * stage.stageHeight));
+			tween.animate("x", 50 + (Math.random() * (stage.stageWidth - 100)));
+			tween.animate("y", (stage.stageHeight * 0.2) + 50 + (Math.random() * ((stage.stageHeight - 90) - (stage.stageHeight * 0.2))));
 			Starling.juggler.add(tween);
 			_ladyBugArt.currentFrame = 1;
 			_ladyBugArt.stop();
@@ -117,6 +111,18 @@ package br.com.ef5.ariane.crushTheLadyBug.object {
 			Starling.juggler.add(_ladyBugArt);
 
 			addChild(_ladyBugArt);
+		}
+
+		public function stop() : void {
+			if (this.hasEventListener(TouchEvent.TOUCH)) {
+				this.removeEventListener(TouchEvent.TOUCH, squashLadyBug);
+			}
+
+			this.stage.removeEventListener(Event.ENTER_FRAME, onEnterFrameHandler);
+			_ladyBugArt.removeEventListener(Event.COMPLETE, onAnimationEnds);
+			this.removeEventListener(TouchEvent.TOUCH, squashLadyBug);
+			Starling.juggler.remove(_ladyBugArt);
+			removeChild(_ladyBugArt);
 		}
 
 		public function get ladyBugArt() : MovieClip {
