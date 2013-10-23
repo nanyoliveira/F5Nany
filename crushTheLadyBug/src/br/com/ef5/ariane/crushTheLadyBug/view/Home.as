@@ -44,7 +44,7 @@ package br.com.ef5.ariane.crushTheLadyBug.view {
 			this.playButton.width = this.actualWidth * 0.40;
 			this.playButton.height = (this.actualHeight) * 0.10;
 			this.playButton.x = (this.actualWidth - playButton.width)/2;
-			this.playButton.y = (this.actualHeight * 0.70);
+			this.playButton.y = (this.actualHeight * 0.50);
 		}
 
 		private function playButtonHandler($event:Event) : void {
